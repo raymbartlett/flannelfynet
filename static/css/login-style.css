@@ -1,0 +1,103 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background-image: url('/static/images/background3.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+h1 {
+    font-family: 'League Gothic', sans-serif;
+    letter-spacing: .5px;
+    font-size: 7vw;
+    font-weight: 300;
+    line-height: 1;
+    color: #f1ef80;
+    text-shadow: -2.5px -2.5px 0 #000, 2.5px -2.5px 0 #000, -2.5px 2.5px 0 #000, 2.5px 2.5px 0 #000;
+    text-align: center;
+}
+
+h2 {
+    font-family: 'League Gothic', sans-serif;
+    letter-spacing: .5px;
+    font-size: 5vw;
+    font-weight: 300;
+    line-height: 0;
+    color: #f1ef80;
+    text-shadow: -.2vw -.2vw 0 #000, .2vw -.2vw 0 #000, -.2vw .2vw 0 #000, .2vw .2vw 0 #000;
+    text-align: center;
+    margin-bottom: 7vw;
+}
+
+button {
+    font-family: 'League Gothic', sans-serif;
+    font-size: 5vw;
+    text-align: center;
+    color: #050705;
+    background-color: #f1ef80;
+    border-color: #050705;
+    border-radius: 11%;
+    padding: 3px 15px;
+    margin: 0 auto;
+    display: block;
+}
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 100px;
+    font-family: 'League Gothic', sans-serif;
+    font-size: 1.5vw;
+    letter-spacing: .5px;
+    text-align: center;
+    color: #f1ef80;
+    text-shadow: -.1vw -.1vw 0 #000, .1vw -.1vw 0 #000, -.1vw .1vw 0 #000, .1vw .1vw 0 #000;
+}
+
+p {
+    line-height: 0.5;
+}
+
+img {
+    max-height: 50px;
+    background-color: #f1ef80;
+}
+
+a:link {
+    color: #f1ef80;
+    background-color: transparent;
+    text-shadow: -.1vw -.1vw 0 #000, .1vw -.1vw 0 #000, -.1vw .1vw 0 #000, .1vw .1vw 0 #000;
+}
+
+a:visited {
+    color: #f1ef80;
+    background-color: transparent;
+    text-shadow: -.1vw -.1vw 0 #000, .1vw -.1vw 0 #000, -.1vw .1vw 0 #000, .1vw .1vw 0 #000;
+}
+
+a:hover {
+    color: #f1ef80;
+    background-color: transparent;
+    text-shadow: -.1vw -.1vw 0 #000, .1vw -.1vw 0 #000, -.1vw .1vw 0 #000, .1vw .1vw 0 #000;
+    text-decoration: underline;
+}
+
+a:active {
+    color: #f1ef80;
+    background-color: transparent;
+    text-decoration: underline;
+    text-shadow: -.1vw -.1vw 0 #000, .1vw -.1vw 0 #000, -.1vw .1vw 0 #000, .1vw .1vw 0 #000;
+}

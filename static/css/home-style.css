@@ -1,0 +1,136 @@
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #000000 !important;
+    font-family: 'League Gothic', sans-serif !important;
+    color: #f1ef80 !important;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.toppane {
+    width: 100%;
+    height: 150px;
+    letter-spacing: .5px;
+}
+
+.scorepng {
+    width:100%;
+    height:200px;
+}
+
+.barchart {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1vw;
+}
+
+.leftpane {
+    width: 32%;
+    overflow: auto;
+    float: left;
+    word-break: break-word;
+}
+
+.middlepane {
+    width: 32%;
+    overflow: auto;
+    float: left;
+    word-break: break-word;
+}
+
+.rightpane {
+    width: 32%;
+    overflow: auto;
+    float: left;
+    word-break: break-word;
+}
+
+.buffer {
+    width: 2%;
+    overflow: auto;
+    float: left;
+    word-break: break-word;
+}
+
+.bottompane {
+    width: 100%;
+    overflow: auto;
+    float: center;
+    word-break: break-word;
+    padding-top: 50px;
+    padding-bottom: 10px;
+}
+
+p #default {
+    font-family: museo-sans, serif;
+    color: #f1ef80;
+    line-height: 1;
+}
+
+button {
+    font-family: 'League Gothic', sans-serif !important;
+    font-size: 2vw !important;
+    text-align: center !important;
+    color: #050705 !important;
+    background-color: #f1ef80 !important;
+    border-color: #050705 !important;
+    border-radius: 11% !important;
+    padding: 3px 15px !important;
+    margin: 0 auto !important;
+    display: block !important;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 200px;
+    width: auto;
+}
+
+.modal-content {
+    height: 50% !important;
+    background-color: #000000 !important;
+}
+
+.footer {
+    left: 0;
+    bottom: 0;
+    top: 100px;
+    width: 100%;
+    min-height: 100px;
+    font-family: 'League Gothic', sans-serif;
+    font-size: 1.5vw;
+    letter-spacing: .5px;
+    text-align: center;
+    color: #f1ef80;
+}
+
+p #footer {
+    line-height: 0.5;
+}
+
+a:link, a:visited {
+    color: #f1ef80 !important;
+    background-color: transparent !important;
+}
+
+a:hover, a:active {
+    color: #f1ef80 !important;
+    background-color: transparent !important;
+    text-decoration: underline !important;
+}

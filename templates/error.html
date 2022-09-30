@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>flannelfy</title>
+        <link rel="icon" type="image/x-icon" href="/static/images/flannel.ico">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/static/css/error-style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=League+Gothic">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="content">
+                <h2>error occurred</h2>
+                <h3>{{ message }}</h3>
+                <button id="home">home</button>
+                <script>
+                    document.getElementById("home").onclick=function(){
+                        var URL="/"
+                        window.open(URL,"_self");
+                    };
+                </script>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>created by <a href="https://github.com/raymbartlett" target="_blank">ray bartlett</a></p>
+            <p>this site is in no way endorsed by or affiliated with theneedledrop</p>
+            <p>all scores and content are property of anthony fantano</p>
+            <img src="/static/images/spotify.png" alt="Spotify Logo"/>
+        </div>
+
+    </body>
+</html>
