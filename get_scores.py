@@ -7,7 +7,31 @@ import re
 from bs4 import BeautifulSoup
 
 
-title_scores = {}
+title_scores = {
+    "ichiko aoba - windswept adan": 9,
+    "haru nemuri - shunka ryougen": 7,
+    "tricot - 上出来": 7,
+    "xibalba - años en infierno": 6,
+    "floating points & pharoah sanders - promises": 9,
+    "denzel curry - melt my eyez see your future": 8,
+    "cordae - from a birds eye view": 6,
+    "future - i never liked you": 5,
+    "jane remover - frailty": 7,
+    "blu & exile & blu & exile - miles": 9,
+    "danger mouse & black thought - cheat codes": 8,
+    "ethel cain - preacher’s daughter": 6,
+    "nas - king's disease ii": 8,
+    "death's dynamic shroud - faith in persona": 8,
+    "chat pile - god's country": 8,
+    # King Gizzard & The Lizard Wizard
+    "king gizzard & the lizard wizard - k.g.": 6,
+    "king gizzard & the lizard wizard - l.w.": 7,
+    "king gizzard & the lizard wizard - butterfly 3000": 5,
+    "king gizzard & the lizard wizard - omnium gatherum": 6,
+    "king gizzard & the lizard wizard - ice, death, planets, lungs, mushrooms and lava": 7,
+    "king gizzard & the lizard wizard - laminated denim": 8,
+    "king gizzard & the lizard wizard - changes": 7,
+}
 file_path = "scores_2020s.py"
 
 
@@ -34,44 +58,22 @@ def get_scores_2020s():
             score = int(re.findall(r'\d+', str(temp_score))[0]) / 10
             title_scores[title] = int(score)
 
-    # manual inputs (different on AOTY)
-    title_scores["ichiko aoba - windswept adan"] = 9
-    title_scores["haru nemuri - shunka ryougen"] = 7
-    title_scores["tricot - 上出来"] = 7
-    title_scores["xibalba - años en infierno"] = 6
-    title_scores["floating points & pharoah sanders - promises"] = 9
-    title_scores["denzel curry - melt my eyez see your future"] = 8
-    title_scores["cordae - from a birds eye view"] = 6
-    title_scores["future - i never liked you"] = 5
-    title_scores["jane remover - frailty"] = 7
-    title_scores["blu & exile & blu & exile - miles"] = 9
-    title_scores["danger mouse & black thought - cheat codes"] = 8
-    title_scores["ethel cain - preacher’s daughter"] = 6
-    title_scores["nas - king's disease ii"] = 8
-    title_scores["death's dynamic shroud - faith in persona"] = 8
-    title_scores["chat pile - god's country"] = 8
-    # King Gizzard & The Lizard Wizard
-    title_scores["king gizzard & the lizard wizard - l.w."] = 7
-    title_scores["king gizzard & the lizard wizard - omnium gatherum"] = 6
-    title_scores["king gizzard & the lizard wizard - k.g."] = 6
-    title_scores["king gizzard & the lizard wizard - butterfly 3000"] = 5
-
     if os.path.isfile(file_path):
         os.remove(file_path)
         print('deleted previous file')
     else:
         print('previous file does not exist')
 
-    x = open("scores_2020s.py", "w", encoding="utf-8")
-    x.write('titles_2020s = {')
+    new_file = open("scores_2020s.py", "w", encoding="utf-8")
+    new_file.write('titles_2020s = {')
     for i in title_scores:
-        x.write("\n\t")
-        x.write('"')
-        x.write(i)
-        x.write('": ')
-        x.write(str(title_scores[i]))
-        x.write(',')
-    x.write('\n}')
+        new_file.write("\n\t")
+        new_file.write('"')
+        new_file.write(i)
+        new_file.write('": ')
+        new_file.write(str(title_scores[i]))
+        new_file.write(',')
+    new_file.write('\n}')
 
     print('done')
     return

@@ -76,28 +76,15 @@ img {
     background-color: #f1ef80;
 }
 
-a:link {
+a:link, a:visited {
     color: #f1ef80;
     background-color: transparent;
     text-shadow: -.1vw -.1vw 0 #000, .1vw -.1vw 0 #000, -.1vw .1vw 0 #000, .1vw .1vw 0 #000;
 }
 
-a:visited {
-    color: #f1ef80;
-    background-color: transparent;
-    text-shadow: -.1vw -.1vw 0 #000, .1vw -.1vw 0 #000, -.1vw .1vw 0 #000, .1vw .1vw 0 #000;
-}
-
-a:hover {
+a:hover, a:active {
     color: #f1ef80;
     background-color: transparent;
     text-shadow: -.1vw -.1vw 0 #000, .1vw -.1vw 0 #000, -.1vw .1vw 0 #000, .1vw .1vw 0 #000;
     text-decoration: underline;
-}
-
-a:active {
-    color: #f1ef80;
-    background-color: transparent;
-    text-decoration: underline;
-    text-shadow: -.1vw -.1vw 0 #000, .1vw -.1vw 0 #000, -.1vw .1vw 0 #000, .1vw .1vw 0 #000;
 }

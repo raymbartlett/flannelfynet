@@ -29,9 +29,7 @@ def get_unscored_albums(albums):
     for i in albums:
         if i[1] < 0:
             output.append([i[0], i[2]])
-
     output.sort(key=lambda x: (x[0].split(' - ')[0], x[0].split(' - ')[1]))
-
     return output
 
 
