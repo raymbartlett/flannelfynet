@@ -1,0 +1,108 @@
+<html>
+    <head>
+        <title>flannelfy.net - all scores</title>
+        <meta name="description" content="view all scores">
+        <link rel="icon" type="image/x-icon" href="/static/images/flannel.ico">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/static/css/home-style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=League+Gothic">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div class="toppane">
+                <h1>flannelfy</h1>
+                <h2>{{ num_scores }} albums in total</h2>
+                <h2>average score: {{ average }}</h2>
+            </div>
+
+            <div class="barchart">
+                <canvas id="barChart" width="400" height="400"></canvas>
+                <script>
+                const ctx = document.getElementById('barChart');
+                const barChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: {{ labels | safe }},
+                        datasets: [{
+                            label: "amount",
+                            data: {{ values | safe }},
+                            backgroundColor: [
+                                'rgba(255, 255, 0, 0.2)',
+                                'rgba(255, 255, 0, 0.2)',
+                                'rgba(255, 255, 0, 0.2)',
+                                'rgba(192, 192, 192, 0.2)',
+                                'rgba(192, 192, 192, 0.2)',
+                                'rgba(192, 192, 192, 0.2)',
+                                'rgba(192, 192, 192, 0.2)',
+                                'rgba(255, 00, 0, 0.2)',
+                                'rgba(255, 00, 0, 0.2)',
+                                'rgba(255, 00, 0, 0.2)',
+                                'rgba(255, 00, 0, 0.2)',
+
+                            ],
+                            borderColor: [
+                                'rgba(255, 255, 0, 1)',
+                                'rgba(255, 255, 0, 1)',
+                                'rgba(255, 255, 0, 1)',
+                                'rgba(192, 192, 192, 1)',
+                                'rgba(192, 192, 192, 1)',
+                                'rgba(192, 192, 192, 1)',
+                                'rgba(192, 192, 192, 1)',
+                                'rgba(255, 00, 0, 1)',
+                                'rgba(255, 00, 0, 1)',
+                                'rgba(255, 00, 0, 1)',
+                                'rgba(255, 00, 0, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: false
+                    }
+                });
+                </script>
+            </div>
+
+            <ul id="results" class="nav nav-tabs nav-justified">
+                <li class="nav-item active"><a href="#score" class="nav-link" data-toggle="tab"><h2>by score</h2></a></li>
+                <li class="nav-item"><a href="#artist" class="nav-link" data-toggle="tab"><h2>by artist</h2></a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="score" role="tabpanel" class="tab-pane active">
+                    {% for album in by_score %}
+                        <h3>{{ album[0] }}</h3>
+                    {% endfor %}
+                </div>
+                <div id="artist" role="tabpanel" class="tab-pane">
+                    {% for album in by_artist %}
+                        <h3>{{ album[0] }}</h3>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="bottompane">
+                <div class="footer">
+                    <button id="logout">back to login</button>
+                    <script>
+                        document.getElementById("logout").onclick=function(){
+                            var URL="/"
+                            window.open(URL,"_self");
+                        };
+                    </script>
+                    <p>created by <a href="https://github.com/raymbartlett" target="_blank">ray bartlett</a></p>
+                    <p>this site is in no way endorsed by or affiliated with theneedledrop</p>
+                    <img style="max-height: 50px; background-color: #f1ef80;" src="/static/images/spotify.png" alt="Spotify Logo"/>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

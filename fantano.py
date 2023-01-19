@@ -2,8 +2,9 @@
 import spotipy
 import re
 
-from scores_classics import titles_classics
-from scores_2010s import titles_2010s
+from scores import titles_classics
+from scores import titles_2010s
+from scores import titles_manual
 from scores_2020s import titles_2020s
 
 
@@ -86,6 +87,7 @@ class Fantano:
         " (original)",  # The Weeknd - House Of Balloons
         " (legacy edition)",  # Miles Davis - Bitches Brew
         " (deluxe edition/50th anniversary)",  # Marvin Gaye - What's Going On
+        " (heroes version)",  # Metro Boomin - Heroes & Villains
     ]
 
     def __init__(self, token):
@@ -136,7 +138,7 @@ class Fantano:
                 search_group_last = search.split(' & ')[-1].split(' - ')[0] + ' - ' + search.split(' - ', 1)[1]
                 search_group_first = search.split(' & ')[0] + ' - ' + search.split(' - ', 1)[1]
 
-            all_titles = {**titles_classics, **titles_2010s, **titles_2020s}
+            all_titles = {**titles_classics, **titles_2010s, **titles_2020s, **titles_manual}
 
             if search in all_titles:
                 self.scored_albums[self.remove_extras(i[0])] = (all_titles[search], i[2])
