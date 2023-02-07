@@ -11,7 +11,7 @@ def by_score(albums):
 
     temp.sort(key=lambda x: (-x[1], x[0].split(' - ')[0], x[0].split(' - ')[1]))
     for i in temp:
-        output.append([(str(i[1]) + '/10: ' + i[0].lower()), i[2]])
+        output.append([(str(i[1]) + '/10: ' + i[0]), i[2]])
     return output
 
 
@@ -27,7 +27,7 @@ def get_unscored_albums(albums):
     output = []
     for i in albums:
         if i[1] < 0:
-            output.append([i[0].lower(), i[2]])
+            output.append([i[0], i[2]])
     output.sort(key=lambda x: (x[0].split(' - ')[0], x[0].split(' - ')[1]))
     return output
 

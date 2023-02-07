@@ -25,8 +25,8 @@ app = Flask(__name__)
 
 
 s = requests.session()
-clientID = ""
-clientSecret = ""
+clientID = "a0b8bc2c739b4e07af6080987ec92b42"
+clientSecret = "c66ac35950e74fa9a6df209e4b45fcdb"
 
 
 @app.route("/")  # Home page and button for logging into Spotify

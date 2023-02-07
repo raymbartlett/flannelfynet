@@ -4,7 +4,7 @@ titles_classics = {
     "system of a down - toxicity": 10,
     "björk - vespertine": 10,
     "godspeed you! black emperor - lift your skinny fists like antennas to heaven": 10,
-    "madvillain - madvillainy": 10,
+    "madvillain & madlib & mf doom - madvillainy": 10,
     # 1990s
     "ms. lauryn hill - the miseducation of lauryn hill": 10,
     "nirvana - nevermind": 10,
@@ -2019,6 +2019,16 @@ titles_2010s = {
     "dance gavin dance - instant gratification": 1,
     "chance the rapper - the big day": 0,
     "kid cudi - speedin' bullet 2 heaven": 0,
+    # MISSING
+    "beyoncé - homecoming: the live album": 8,
+    "jackboys & travis scott - jackboys": 5,
+    "kendrick lamar - untitled unmastered.": 8,  # correct?
+    "prince - originals": 8,
+    "jai paul - leak 04-13 (bait ones)": 6,
+    'childish gambino - "awaken, my love!"': 7,
+    "kendrick lamar & sza - black panther the album music from and inspired by": 6,
+    "lcd soundsystem - electric lady sessions": 6,
+    "moses sumney - græ": 7,  # part 1 supposed to be there?
 }
 
 titles_manual = {
