@@ -44,7 +44,7 @@ def generate_card(score_path, labels, values, general, average):
     draw.text(link_offset, 'flannelfy.net', fill=(241, 239, 128), font=link_font)
 
     # resize score png to leave left and right buffers
-    score_png = Image.open("static/scores/" + score_path)
+    score_png = Image.open('static/scores/' + score_path)
     MAX_SIZE = (fg.width - 100, 1920)
     score_png.thumbnail(MAX_SIZE)
 
@@ -75,6 +75,6 @@ def generate_card(score_path, labels, values, general, average):
     bg.paste(fg, fg_offset)
 
     data = io.BytesIO()
-    bg.save(data, "JPEG")
+    bg.save(data, 'JPEG')
     encoded_img_data = base64.b64encode(data.getvalue())
     return encoded_img_data

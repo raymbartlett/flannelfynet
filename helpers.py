@@ -1,4 +1,4 @@
-"""Various helper functions dealing with user results."""
+"""Various helper functions, mostly dealing with user results."""
 
 
 def by_score(albums):
@@ -53,42 +53,42 @@ def all_by_artist(albums):
 def get_score_data(albums):
     """Return data for bar chart of scores distribution."""
     data = {
-        "10s": 0,
-        "9s": 0,
-        "8s": 0,
-        "7s": 0,
-        "6s": 0,
-        "5s": 0,
-        "4s": 0,
-        "3s": 0,
-        "2s": 0,
-        "1s": 0,
-        "0s": 0,
+        '10s': 0,
+        '9s': 0,
+        '8s': 0,
+        '7s': 0,
+        '6s': 0,
+        '5s': 0,
+        '4s': 0,
+        '3s': 0,
+        '2s': 0,
+        '1s': 0,
+        '0s': 0,
     }
 
     for i in albums:
         if albums[i][0] == 10:
-            data["10s"] += 1
+            data['10s'] += 1
         elif albums[i][0] == 9:
-            data["9s"] += 1
+            data['9s'] += 1
         elif albums[i][0] == 8:
-            data["8s"] += 1
+            data['8s'] += 1
         elif albums[i][0] == 7:
-            data["7s"] += 1
+            data['7s'] += 1
         elif albums[i][0] == 6:
-            data["6s"] += 1
+            data['6s'] += 1
         elif albums[i][0] == 5:
-            data["5s"] += 1
+            data['5s'] += 1
         elif albums[i][0] == 4:
-            data["4s"] += 1
+            data['4s'] += 1
         elif albums[i][0] == 3:
-            data["3s"] += 1
+            data['3s'] += 1
         elif albums[i][0] == 2:
-            data["2s"] += 1
+            data['2s'] += 1
         elif albums[i][0] == 1:
-            data["1s"] += 1
+            data['1s'] += 1
         elif albums[i][0] == 0:
-            data["0s"] += 1
+            data['0s'] += 1
 
     return data
 
@@ -96,57 +96,57 @@ def get_score_data(albums):
 def get_all_score_data(albums):
     """Return data for bar chart of scores distribution."""
     data = {
-        "10s": 0,
-        "9s": 0,
-        "8s": 0,
-        "7s": 0,
-        "6s": 0,
-        "5s": 0,
-        "4s": 0,
-        "3s": 0,
-        "2s": 0,
-        "1s": 0,
-        "0s": 0,
+        '10s': 0,
+        '9s': 0,
+        '8s': 0,
+        '7s': 0,
+        '6s': 0,
+        '5s': 0,
+        '4s': 0,
+        '3s': 0,
+        '2s': 0,
+        '1s': 0,
+        '0s': 0,
     }
     for value in albums.values():
         if value == 10:
-            data["10s"] += 1
+            data['10s'] += 1
         elif value == 9:
-            data["9s"] += 1
+            data['9s'] += 1
         elif value == 8:
-            data["8s"] += 1
+            data['8s'] += 1
         elif value == 7:
-            data["7s"] += 1
+            data['7s'] += 1
         elif value == 6:
-            data["6s"] += 1
+            data['6s'] += 1
         elif value == 5:
-            data["5s"] += 1
+            data['5s'] += 1
         elif value == 4:
-            data["4s"] += 1
+            data['4s'] += 1
         elif value == 3:
-            data["3s"] += 1
+            data['3s'] += 1
         elif value == 2:
-            data["2s"] += 1
+            data['2s'] += 1
         elif value == 1:
-            data["1s"] += 1
+            data['1s'] += 1
         elif value == 0:
-            data["0s"] += 1
+            data['0s'] += 1
 
     return data
 
 
 def get_average(score_data):
-    sum = score_data["10s"] * 10
-    sum += score_data["9s"] * 9
-    sum += score_data["8s"] * 8
-    sum += score_data["7s"] * 7
-    sum += score_data["6s"] * 6
-    sum += score_data["5s"] * 5
-    sum += score_data["4s"] * 4
-    sum += score_data["3s"] * 3
-    sum += score_data["2s"] * 2
-    sum += score_data["1s"] * 1
-    sum += score_data["0s"] * 0
+    sum = score_data['10s'] * 10
+    sum += score_data['9s'] * 9
+    sum += score_data['8s'] * 8
+    sum += score_data['7s'] * 7
+    sum += score_data['6s'] * 6
+    sum += score_data['5s'] * 5
+    sum += score_data['4s'] * 4
+    sum += score_data['3s'] * 3
+    sum += score_data['2s'] * 2
+    sum += score_data['1s'] * 1
+    sum += score_data['0s'] * 0
 
     total = 0
     for value in score_data.values():
@@ -229,3 +229,38 @@ def get_score_path(average):
 
     elif 10 <= average:
         return '10.png'
+
+
+def normalize_album(album, context):
+    album = album.lower()
+    album = album.replace('\u200b', '')  # remove zero width space
+    if context == 'retrieval':
+        album = album.replace('"', '\\"')  # allow for double quotes
+    album = album.replace('’', "'")  # normalize apostrophes
+    album = album.replace('king gizzard and', 'king gizzard &')
+    return album
+
+
+def remove_extras(album):
+    flairs = [
+        "edition",
+        "version",
+        "deluxe",
+        "special",
+        "expanded",
+        "extended",
+        "remaster",
+        "remastered",
+        "remix",
+        "edición",
+        "anniversary",
+        "original",  # The Weeknd - House Of Balloons
+    ]
+    parens = album[album.find('('):album.find(')')+1]
+    brackets = album[album.find('['):album.find(']')+1]
+    for flair in flairs:
+        if parens.find(flair) != -1 and parens.find("soundtrack") == -1:
+            return album.replace(parens, '').strip()
+        if brackets.find(flair) != -1 and brackets.find("soundtrack") == -1:
+            return album.replace(brackets, '').strip()
+    return album
