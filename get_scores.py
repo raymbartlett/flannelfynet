@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 
 title_scores = {}
-file_path = "scores_2020s.py"
+file_path = 'scores_2020s.py'
 
 
 def get_scores_2020s():
@@ -23,14 +23,14 @@ def get_scores_2020s():
         soup = BeautifulSoup(page, 'html.parser')
         if 'n<title>The Best Albums of 2020 - Album of The Year</title>' in str(page):
             break
-        results = soup.find(id="centerContent")
-        results = results.find_all("div", class_="albumListRow")
+        results = soup.find(id='centerContent')
+        results = results.find_all('div', class_='albumListRow')
 
         for album in results:
             temp_title = album.find_all('meta', attrs={'itemprop': 'name'})[0]
             title = html.unescape(str(temp_title).split('"')[1]).lower()
             title = title.replace('\u200b', '')  # remove zero width space
-            temp_score = album.find_all("div", class_="scoreValue")[0]
+            temp_score = album.find_all('div', class_='scoreValue')[0]
             score = int(re.findall(r'\d+', str(temp_score))[0]) / 10
             title_scores[title] = int(score)
 
@@ -40,10 +40,10 @@ def get_scores_2020s():
     else:
         print('previous file does not exist')
 
-    new_file = open("scores_2020s.py", "w", encoding="utf-8")
+    new_file = open('scores_2020s.py', 'w', encoding='utf-8')
     new_file.write('titles_2020s = {')
     for i in title_scores:
-        new_file.write("\n\t")
+        new_file.write('\n\t')
         new_file.write('"')
         new_file.write(i)
         new_file.write('": ')
@@ -55,5 +55,5 @@ def get_scores_2020s():
     return
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     get_scores_2020s()

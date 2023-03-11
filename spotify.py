@@ -1,31 +1,18 @@
-"""Stores Fantano class."""
+"""Stores Spotify class."""
 import spotipy
 
+from helpers import remove_extras
 from scores import titles_classics
 from scores import titles_2010s
 from scores import titles_manual
 from scores_2020s import titles_2020s
 
 
-class Fantano:
+class Spotify:
     """Stores all user data for the home page."""
     total_albums = 0
     eligible_albums = []
     scored_albums = {}
-    flairs = [
-        "edition",
-        "version",
-        "deluxe",
-        "special",
-        "expanded",
-        "extended",
-        "remaster",
-        "remastered",
-        "remix",
-        "edición",
-        "anniversary",
-        "original",  # The Weeknd - House Of Balloons
-    ]
 
     def __init__(self, token):
         """Authorize through Spotify."""
@@ -56,11 +43,11 @@ class Fantano:
             link = i['album']['external_urls']['spotify']
 
             if (release_year >= 2010) and (i['album']['album_type'] == 'album'):
-                # potentially has Fantano score
-                self.eligible_albums.append(list((self.remove_extras(artist + ' - ' + title), score, link)))
-            elif (self.remove_extras(artist + ' - ' + title) in titles_classics):
+                # potentially has fantano score
+                self.eligible_albums.append(list((remove_extras(artist + ' - ' + title), score, link)))
+            elif (remove_extras(artist + ' - ' + title) in titles_classics):
                 # is a scored classic album
-                self.eligible_albums.append(list((self.remove_extras(artist + ' - ' + title), score, link)))
+                self.eligible_albums.append(list((remove_extras(artist + ' - ' + title), score, link)))
         return
 
     def get_user_scores(self):
@@ -68,7 +55,7 @@ class Fantano:
         self.scored_albums = {}
         for eligible_album in self.eligible_albums:
 
-            search = self.remove_extras(eligible_album[0])
+            search = remove_extras(eligible_album[0])
             search_group_first = ''
             search_group_last = ''
             if ' & ' in search.split(' - ')[0]:
@@ -87,13 +74,3 @@ class Fantano:
                 self.scored_albums[search_group_last] = (all_titles[search_group_last], eligible_album[2])
                 eligible_album[1] = all_titles[search_group_last]
         return
-
-    def remove_extras(self, album):
-        parens = album[album.find("("):album.find(")")+1]
-        brackets = album[album.find("["):album.find("]")+1]
-        for flair in self.flairs:
-            if parens.find(flair) != -1 and parens.find("soundtrack") == -1:
-                return album.replace(parens, "").strip()
-            if brackets.find(flair) != -1 and brackets.find("soundtrack") == -1:
-                return album.replace(brackets, "").strip()
-        return album
