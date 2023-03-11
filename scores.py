@@ -1914,7 +1914,7 @@ titles_2010s = {
     "steve lacy - apollo xxi": 3,
     "have a nice life - sea of worry": 3,
     "mac demarco - here comes the cowboy": 3,
-    "tyler, the creator - music inspired by illumination & dr. seuss’ the grinch": 3,
+    "tyler, the creator - music inspired by illumination & dr. seuss' the grinch": 3,
     "maggie rogers - heard it in a past life": 3,
     "russ - zoo": 3,
     "mac miller - swimming": 8,
@@ -2035,7 +2035,6 @@ titles_manual = {
     # 2010s
     # TYPOS
     "jid - dicaprio 2": 8,
-    "rapsody - laila’s wisdom": 8,  # different apostrophe
     "haru nemuri - harutosyura": 8,
     "car seat headrest - twin fantasy": 8,
     "kyary pamyu pamyu - なんだこれくしょん": 8,
@@ -2078,27 +2077,12 @@ titles_manual = {
     "the world is a beautiful place & i am no longer afraid to die - between bodies": 5,
 
     # 2020s
-    'westside gunn - peace "fly" god': 5,  # double quotes
     "ichiko aoba - windswept adan": 9,
     "haru nemuri - shunka ryougen": 7,
     "tricot - 上出来": 7,
     "xibalba - años en infierno": 6,
     "floating points & pharoah sanders - promises": 9,
-    "denzel curry - melt my eyez see your future": 8,
-    "cordae - from a birds eye view": 6,
-    "future - i never liked you": 5,
-    "jane remover - frailty": 7,
     "blu & exile & blu & exile - miles": 9,
     "danger mouse & black thought - cheat codes": 8,
-    "ethel cain - preacher’s daughter": 6,
-    "nas - king's disease ii": 8,
     "death's dynamic shroud - faith in persona": 8,
-    "chat pile - god's country": 8,
-    "king gizzard & the lizard wizard - k.g.": 6,
-    "king gizzard & the lizard wizard - l.w.": 7,
-    "king gizzard & the lizard wizard - butterfly 3000": 5,
-    "king gizzard & the lizard wizard - omnium gatherum": 6,
-    "king gizzard & the lizard wizard - ice, death, planets, lungs, mushrooms and lava": 7,
-    "king gizzard & the lizard wizard - laminated denim": 8,
-    "king gizzard & the lizard wizard - changes": 7,
 }

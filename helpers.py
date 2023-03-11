@@ -231,6 +231,16 @@ def get_score_path(average):
         return '10.png'
 
 
+def normalize_album(album, context):
+    album = album.lower()
+    album = album.replace('\u200b', '')  # remove zero width space
+    if context == 'retrieval':
+        album = album.replace('"', '\\"')  # allow for double quotes
+    album = album.replace('’', "'")  # normalize apostrophes
+    album = album.replace('king gizzard and', 'king gizzard &')
+    return album
+
+
 def remove_extras(album):
     flairs = [
         "edition",

@@ -84,7 +84,19 @@ def lastfm_results():
     if len(user.scored_albums) < 1:
         return render_template('error.html', message="you have no scored albums")
 
-    general = 'top ' + str(user.total_albums) + ' albums in the last ' + duration + ' | ' + str(len(user.scored_albums)) + ' have a score'
+    duration_str = ''
+    if duration == 'overall':
+        duration_str = ' all time'
+    elif duration == '1month':
+        duration_str = ' the last month'
+    elif duration == '3month':
+        duration_str = ' the last 3 months'
+    elif duration == '6month':
+        duration_str = ' the last 6 months'
+    elif duration == '12month':
+        duration_str = ' the last year'
+
+    general = 'top ' + str(user.total_albums) + ' albums of ' + duration_str + ' | ' + str(len(user.scored_albums)) + ' have a score'
 
     ordered_scores = by_score(user.scored_albums)
     alphabetical_scores = by_artist(ordered_scores)

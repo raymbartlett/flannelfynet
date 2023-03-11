@@ -2,11 +2,10 @@
 import requests
 import json
 
+from scores_lastfm import titles_only
+from scores_lastfm_2020s import titles_only_2020s
+from helpers import normalize_album as normalize
 from helpers import remove_extras
-from scores import titles_classics
-from scores import titles_2010s
-from scores import titles_manual
-from scores_2020s import titles_2020s
 
 API_KEY = ''
 
@@ -32,7 +31,8 @@ class LastFM:
         self.total_albums = len(saved_albums)
 
         for album in saved_albums:
-            title = str(album['name']).lower()
+            title = str(album['name'])
+            title = normalize(title, 'library')
             artist = str(album['artist']['name']).lower()
             score = -1
             link = str(album['url'])
@@ -46,10 +46,10 @@ class LastFM:
         for eligible_album in self.eligible_albums:
 
             search = remove_extras(eligible_album[0])
+            title = search.split(' - ')[1]
+            all_titles = {**titles_only, **titles_only_2020s}
 
-            all_titles = {**titles_classics, **titles_2010s, **titles_2020s, **titles_manual}
-
-            if search in all_titles:
-                self.scored_albums[search] = (all_titles[search], eligible_album[2])
-                eligible_album[1] = all_titles[search]
+            if title in all_titles:
+                self.scored_albums[search] = (all_titles[title], eligible_album[2])
+                eligible_album[1] = all_titles[title]
         return

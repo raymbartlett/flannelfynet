@@ -6,6 +6,7 @@ from scores import titles_classics
 from scores import titles_2010s
 from scores import titles_manual
 from scores_2020s import titles_2020s
+from helpers import normalize_album as normalize
 
 
 class Spotify:
@@ -37,7 +38,8 @@ class Spotify:
 
         for i in saved_albums:
             release_year = int((i['album']['release_date'])[0:4])
-            title = (i['album']['name']).lower()
+            title = (i['album']['name'])
+            title = normalize(title, 'library')
             artist = (' & '.join(artist['name'] for artist in i['album']['artists'])).lower()
             score = -1
             link = i['album']['external_urls']['spotify']

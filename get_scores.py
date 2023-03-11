@@ -5,6 +5,7 @@ from urllib.request import Request, urlopen
 import html
 import re
 from bs4 import BeautifulSoup
+from helpers import normalize_album as normalize
 
 
 title_scores = {}
@@ -28,8 +29,8 @@ def get_scores_2020s():
 
         for album in results:
             temp_title = album.find_all('meta', attrs={'itemprop': 'name'})[0]
-            title = html.unescape(str(temp_title).split('"')[1]).lower()
-            title = title.replace('\u200b', '')  # remove zero width space
+            title = str(temp_title.previous)
+            title = normalize(title, 'retrieval')
             temp_score = album.find_all('div', class_='scoreValue')[0]
             score = int(re.findall(r'\d+', str(temp_score))[0]) / 10
             title_scores[title] = int(score)
@@ -40,7 +41,7 @@ def get_scores_2020s():
     else:
         print('previous file does not exist')
 
-    new_file = open('scores_2020s.py', 'w', encoding='utf-8')
+    new_file = open(file_path, 'w', encoding='utf-8')
     new_file.write('titles_2020s = {')
     for i in title_scores:
         new_file.write('\n\t')
