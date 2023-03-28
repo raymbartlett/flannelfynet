@@ -5,10 +5,10 @@ from scores_2020s import titles_2020s
 from helpers import normalize_album as normalize
 
 titles_only = {}
-file_path = 'scores_lastfm_2020s.py'
+file_path = 'scores_2020s_lastfm.py'
 
 
-def get_lastfm_scores_2020s():
+def get_scores_lastfm():
     """Retrive 2020s scores (titles only) from scores_2020s."""
     for key in titles_2020s:
         title = key.split(' - ')[1]
@@ -37,4 +37,4 @@ def get_lastfm_scores_2020s():
 
 
 if __name__ == '__main__':
-    get_lastfm_scores_2020s()
+    get_scores_lastfm()
