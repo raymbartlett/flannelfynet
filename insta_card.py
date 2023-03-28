@@ -4,7 +4,7 @@ import base64
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
 import matplotlib
-matplotlib.use("Agg")
+matplotlib.use('Agg')
 
 
 def generate_bar_chart(labels, values):

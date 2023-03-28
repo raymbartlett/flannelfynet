@@ -3,11 +3,9 @@ import requests
 import json
 
 from scores_lastfm import titles_only
-from scores_lastfm_2020s import titles_only_2020s
+from scores_2020s_lastfm import titles_only_2020s
 from helpers import normalize_album as normalize
 from helpers import remove_extras
-
-API_KEY = ''
 
 
 class LastFM:
@@ -16,8 +14,9 @@ class LastFM:
     eligible_albums = []
     scored_albums = {}
 
-    def __init__(self, username, duration, limit):
+    def __init__(self, api_key, username, duration, limit):
         """Authorize through Spotify."""
+        self.api_key = api_key
         self.username = username
         self.duration = duration
         self.limit = limit
@@ -25,7 +24,9 @@ class LastFM:
     def get_eligible_albums(self):
         """Retrieve all albums saved by the user that potentially have a score."""
         self.eligible_albums = []
-        x = requests.get(f'http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user={self.username}&api_key={API_KEY}&period={self.duration}&limit={self.limit}&&format=json')
+        x = requests.get(f'http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user={self.username}&api_key={self.api_key}&period={self.duration}&limit={self.limit}&&format=json')
+        if x.status_code != 200:
+            return
         saved_albums = json.loads(x.text)['topalbums']['album']
 
         self.total_albums = len(saved_albums)

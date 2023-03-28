@@ -2,7 +2,6 @@
 import os
 
 from urllib.request import Request, urlopen
-import html
 import re
 from bs4 import BeautifulSoup
 from helpers import normalize_album as normalize

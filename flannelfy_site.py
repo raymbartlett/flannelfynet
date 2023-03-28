@@ -20,6 +20,7 @@ app = Flask(__name__)
 s = requests.session()
 clientID = ''
 clientSecret = ''
+lastFmKey = ''
 
 
 @app.route('/')  # Home page and button for logging into Spotify
@@ -73,30 +74,42 @@ def spotify_results(token):
 @app.route('/lastfm_results', methods=['POST'])
 def lastfm_results():
     username = request.form['username']
+    if username == '':
+        return render_template('error.html', message="no username given")
+
     duration = request.form['duration']
-    user = LastFM(username, duration, 100)
+    limit = 0
+    duration_str = ''
+    if duration == 'overall':
+        duration_str = ' all time'
+        limit = 100
+    elif duration == '7day':
+        duration_str = ' the last 7 days'
+        limit = 10
+    elif duration == '1month':
+        duration_str = ' the last month'
+        limit = 25
+    elif duration == '3month':
+        duration_str = ' the last 3 months'
+        limit = 50
+    elif duration == '6month':
+        duration_str = ' the last 6 months'
+        limit = 100
+    elif duration == '12month':
+        duration_str = ' the last year'
+        limit = 100
+
+    user = LastFM(lastFmKey, username, duration, limit)
     user.get_eligible_albums()
     user.get_user_scores()
 
     if len(user.eligible_albums) < 1:
-        return render_template('error.html', message="you have no eligible albums")
+        return render_template('error.html', message="you have no eligible albums or your last.fm username is invalid")
 
     if len(user.scored_albums) < 1:
         return render_template('error.html', message="you have no scored albums")
 
-    duration_str = ''
-    if duration == 'overall':
-        duration_str = ' all time'
-    elif duration == '1month':
-        duration_str = ' the last month'
-    elif duration == '3month':
-        duration_str = ' the last 3 months'
-    elif duration == '6month':
-        duration_str = ' the last 6 months'
-    elif duration == '12month':
-        duration_str = ' the last year'
-
-    general = 'top ' + str(user.total_albums) + ' albums of ' + duration_str + ' | ' + str(len(user.scored_albums)) + ' have a score'
+    general = 'top ' + str(user.total_albums) + ' albums of ' + duration_str + ' | ' + str(len(user.scored_albums)) + ' with a score'
 
     ordered_scores = by_score(user.scored_albums)
     alphabetical_scores = by_artist(ordered_scores)

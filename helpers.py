@@ -263,4 +263,5 @@ def remove_extras(album):
             return album.replace(parens, '').strip()
         if brackets.find(flair) != -1 and brackets.find("soundtrack") == -1:
             return album.replace(brackets, '').strip()
+    album = album.rstrip(' +')  # rosalía - motomami +
     return album
