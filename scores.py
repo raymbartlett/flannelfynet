@@ -1478,7 +1478,7 @@ titles_2010s = {
     "post malone - hollywood's bleeding": 5,
     "battles - juice b crypts": 5,
     "sturgill simpson - sound & fury": 5,
-    "daniel caesar - case study  01": 5,
+    "daniel caesar - case study 01": 5,
     "chelsea wolfe - birth of violence": 5,
     "alex g - house of sugar": 5,
     "clairo - immunity": 5,
@@ -2044,7 +2044,7 @@ titles_manual = {
     "santigold - 99 cents": 7,
     "dām-funk - invite the light": 7,
     "carly rae jepsen - emotion": 7,
-    "carly rae jepsen - emotion: side b": 8,  # not even on spotify
+    "carly rae jepsen - emotion: side b": 8,  # not on spotify
     "bts - love yourself 轉 'tear'": 6,
     "erykah badu - but you caint use my phone (mixtape)": 6,
     "action bronson & party supplies - blue chips 2": 6,  # not on spotify

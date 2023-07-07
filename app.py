@@ -1,8 +1,8 @@
 """All app routes and function calls."""
+import base64
 from flask import Flask, request, render_template, redirect
 from flask.helpers import url_for
 import requests
-import base64
 
 from spotify import Spotify
 from lastfm import LastFM
@@ -10,48 +10,47 @@ from helpers import *
 from insta_card import generate_card
 
 # scores for all scores tab
-from scores import titles_classics
-from scores import titles_2010s
+from scores import titles_classics, titles_2010s
 from scores_2020s import titles_2020s
 
 app = Flask(__name__)
 
 
 s = requests.session()
-clientID = ''
-clientSecret = ''
-lastFmKey = ''
+CLIENT_ID = ""
+CLIENT_SECRET = ""
+LASTFM_KEY = ""
 
 
-@app.route('/')  # Home page and button for logging into Spotify
+@app.route('/')
 def login():
     """Open screen for user to log in. Redirect URI must match Spotify Developer Dashboard."""
-    parameters = {'client_id': clientID, 'response_type': 'code', 'redirect_uri': 'http://127.0.0.1:5000/spotify_access', 'scope': 'user-library-read', 'show_dialog': 'true'}
-    BaseURL = 'https://accounts.spotify.com/authorize'
-    r = s.get(BaseURL, params=parameters)
+    parameters = {'client_id': CLIENT_ID, 'response_type': 'code', 'redirect_uri': 'http://127.0.0.1:5000/spotify_access', 'scope': 'user-library-read', 'show_dialog': 'true'}
+    base_url = 'https://accounts.spotify.com/authorize'
+    r = s.get(base_url, params=parameters)
     return render_template('login.html', url=r.url)
 
 
-@app.route('/spotify_results/<token>')  # Page to view results
+@app.route('/spotify_results/<token>')
 def spotify_results(token):
-    """Open home page with user's results."""
+    """Open results page with Spotify data."""
     user = Spotify(token)
     user.get_eligible_albums()
-    user.get_user_scores()
+    scored_albums, unscored_albums = get_user_scores(user.eligible_albums)
 
     if len(user.eligible_albums) < 1:
         return render_template('error.html', message="you have no eligible albums")
 
-    if len(user.scored_albums) < 1:
+    if len(scored_albums) < 1:
         return render_template('error.html', message="you have no scored albums")
 
-    general = str(user.total_albums) + ' albums in total | ' + str(len(user.eligible_albums)) + ' albums are eligible | ' + str(len(user.scored_albums)) + ' albums with a score'
+    general = str(user.total_albums) + ' albums in total | ' + str(len(user.eligible_albums)) + ' albums are eligible | ' + str(len(scored_albums)) + ' albums with a score'
 
-    ordered_scores = by_score(user.scored_albums)
+    ordered_scores = by_score(scored_albums)
     alphabetical_scores = by_artist(ordered_scores)
-    unscored = get_unscored_albums(user.eligible_albums)
+    unscored_albums.sort(key=lambda x: (x[0].split(' - ')[0], x[0].split(' - ')[1]))
 
-    score_data = get_score_data(user.scored_albums)
+    score_data = get_score_data(scored_albums)
     labels = list(score_data.keys())
     values = list(score_data.values())
     average = get_average(score_data)
@@ -62,7 +61,7 @@ def spotify_results(token):
         general=general,
         ordered_scores=ordered_scores,
         alphabetical_scores=alphabetical_scores,
-        unscored=unscored,
+        unscored=unscored_albums,
         labels=labels,
         values=values,
         average=average,
@@ -73,6 +72,7 @@ def spotify_results(token):
 
 @app.route('/lastfm_results', methods=['POST'])
 def lastfm_results():
+    """Open results page with last.fm data."""
     username = request.form['username']
     if username == '':
         return render_template('error.html', message="no username given")
@@ -99,23 +99,23 @@ def lastfm_results():
         duration_str = ' the last year'
         limit = 100
 
-    user = LastFM(lastFmKey, username, duration, limit)
+    user = LastFM(LASTFM_KEY, username, duration, limit)
     user.get_eligible_albums()
-    user.get_user_scores()
+    scored_albums, unscored_albums = get_user_scores(user.eligible_albums)
 
     if len(user.eligible_albums) < 1:
         return render_template('error.html', message="you have no eligible albums or your last.fm username is invalid")
-
-    if len(user.scored_albums) < 1:
+    if len(scored_albums) < 1:
         return render_template('error.html', message="you have no scored albums")
 
-    general = 'top ' + str(user.total_albums) + ' albums of ' + duration_str + ' | ' + str(len(user.scored_albums)) + ' with a score'
 
-    ordered_scores = by_score(user.scored_albums)
+    general = 'top ' + str(user.total_albums) + ' albums of ' + duration_str + ' | ' + str(len(scored_albums)) + ' with a score'
+
+    ordered_scores = by_score(scored_albums)
     alphabetical_scores = by_artist(ordered_scores)
-    unscored = get_unscored_albums(user.eligible_albums)
+    unscored_albums.sort(key=lambda x: (x[0].split(' - ')[0], x[0].split(' - ')[1]))
 
-    score_data = get_score_data(user.scored_albums)
+    score_data = get_score_data(scored_albums)
     labels = list(score_data.keys())
     values = list(score_data.values())
     average = get_average(score_data)
@@ -126,7 +126,7 @@ def lastfm_results():
         general=general,
         ordered_scores=ordered_scores,
         alphabetical_scores=alphabetical_scores,
-        unscored=unscored,
+        unscored=unscored_albums,
         labels=labels,
         values=values,
         average=average,
@@ -136,7 +136,8 @@ def lastfm_results():
 
 
 @app.route('/all_scores')
-def all_scores():
+def all_scores_results():
+    """Open results page with all scores."""
     all_scores = {**titles_classics, **titles_2010s, **titles_2020s}
     num_scores = len(all_scores)
     average = round((sum(all_scores.values())/len(all_scores)), 2)
@@ -163,8 +164,8 @@ def spotify_access():
     """Endpoint for user login and going to home page, or error page if login fails."""
     code = request.args.get('code')  # Setup for retrieving authorization code/access token
     parameters = {'grant_type': 'authorization_code', 'code': code, 'redirect_uri': 'http://127.0.0.1:5000/spotify_access'}
-    authHeader = base64.urlsafe_b64encode((clientID + ':' + clientSecret).encode('ascii'))
-    headers = {'Authorization': 'Basic %s' % authHeader.decode('ascii'), 'Content-Type': 'application/x-www-form-urlencoded'}
+    auth_header = base64.urlsafe_b64encode((CLIENT_ID + ':' + CLIENT_SECRET).encode('ascii'))
+    headers = {'Authorization': 'Basic %s' % auth_header.decode('ascii'), 'Content-Type': 'application/x-www-form-urlencoded'}
     r = s.post('https://accounts.spotify.com/api/token', headers=headers, data=parameters)
     if 'error' in r.json():  # If user does not agree to terms
         return render_template('error.html', message='unable to sign in to spotify')  # Show error with login page, with button to return back to welcome/home page

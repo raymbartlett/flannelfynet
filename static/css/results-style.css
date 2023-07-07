@@ -7,7 +7,7 @@ body {
     height: 100%;
     width: 100%;
     background-color: #000000 !important;
-    font-family: 'League Gothic', sans-serif !important;
+    font-family: League Gothic, sans-serif !important;
     color: #f1ef80 !important;
 }
 
@@ -45,7 +45,7 @@ h3 {
 }
 
 button {
-    font-family: 'League Gothic', sans-serif !important;
+    font-family: League Gothic, sans-serif !important;
     font-size: 3vw !important;
     text-align: center !important;
     color: #050705 !important;
@@ -86,7 +86,7 @@ img {
     top: 100px;
     width: 100%;
     min-height: 100px;
-    font-family: 'League Gothic', sans-serif;
+    font-family: League Gothic, sans-serif;
     font-size: 1.5vw;
     letter-spacing: .5px;
     text-align: center;
