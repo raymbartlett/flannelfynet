@@ -19,7 +19,7 @@ body {
 }
 
 h2 {
-    font-family: 'League Gothic', sans-serif;
+    font-family: League Gothic, sans-serif;
     letter-spacing: .5px;
     line-height: 1;
     font-size: 7vw;
@@ -31,7 +31,7 @@ h2 {
 }
 
 h3 {
-    font-family: 'League Gothic', sans-serif;
+    font-family: League Gothic, sans-serif;
     letter-spacing: .5px;
     font-size: 4vw;
     font-weight: 300;
@@ -42,7 +42,7 @@ h3 {
 }
 
 button {
-    font-family: 'League Gothic', sans-serif;
+    font-family: League Gothic, sans-serif;
     font-size: 5vw;
     text-align: center;
     color: #050705;
@@ -59,7 +59,7 @@ button {
     bottom: 0;
     width: 100%;
     min-height: 100px;
-    font-family: 'League Gothic', sans-serif;
+    font-family: League Gothic, sans-serif;
     font-size: 1.5vw;
     letter-spacing: .5px;
     text-align: center;
@@ -68,7 +68,7 @@ button {
 }
 
 p {
-    line-height: 0.5;
+    line-height: .5;
 }
 
 img {

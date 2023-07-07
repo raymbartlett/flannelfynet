@@ -4,11 +4,11 @@ import os
 from urllib.request import Request, urlopen
 import re
 from bs4 import BeautifulSoup
-from helpers import normalize_album as normalize
+from helpers import normalize_title
 
 
 title_scores = {}
-file_path = 'scores_2020s.py'
+FILE_PATH = 'scores_2020s.py'
 
 
 def get_scores_2020s():
@@ -29,18 +29,18 @@ def get_scores_2020s():
         for album in results:
             temp_title = album.find_all('meta', attrs={'itemprop': 'name'})[0]
             title = str(temp_title.previous)
-            title = normalize(title, 'retrieval')
+            title = normalize_title(title, 'retrieval')
             temp_score = album.find_all('div', class_='scoreValue')[0]
             score = int(re.findall(r'\d+', str(temp_score))[0]) / 10
             title_scores[title] = int(score)
 
-    if os.path.isfile(file_path):
-        os.remove(file_path)
+    if os.path.isfile(FILE_PATH):
+        os.remove(FILE_PATH)
         print('deleted previous file')
     else:
         print('previous file does not exist')
 
-    new_file = open(file_path, 'w', encoding='utf-8')
+    new_file = open(FILE_PATH, 'w', encoding='utf-8')
     new_file.write('titles_2020s = {')
     for i in title_scores:
         new_file.write('\n\t')
@@ -52,7 +52,6 @@ def get_scores_2020s():
     new_file.write('\n}')
 
     print('done')
-    return
 
 
 if __name__ == '__main__':

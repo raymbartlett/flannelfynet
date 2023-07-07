@@ -152,10 +152,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# 2020 scores (created during setup)
-scores_2020s.py
-scores_2020s_lastfm.py
-
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore

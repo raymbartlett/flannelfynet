@@ -1,5 +1,4 @@
-html,
-body {
+html, body {
     max-width: 100%;
     overflow-x: hidden;
 }
@@ -21,48 +20,48 @@ body {
 }
 
 h1 {
-    font-family: "League Gothic", sans-serif;
-    letter-spacing: 0.5px;
+    font-family: League Gothic, sans-serif;
+    letter-spacing: .5px;
     font-size: 7vw;
     font-weight: 300;
     line-height: 1;
     color: #f1ef80;
-    -webkit-text-stroke: 0.25vw #000;
+    -webkit-text-stroke: .25vw #000;
     text-align: center;
     margin-bottom: 3vw;
 }
 
 h2 {
-    font-family: "League Gothic", sans-serif;
-    letter-spacing: 0.5px;
+    font-family: League Gothic, sans-serif;
+    letter-spacing: .5px;
     font-size: 5vw;
     font-weight: 300;
     line-height: 0;
     color: #f1ef80;
-    -webkit-text-stroke: 0.2vw #000;
+    -webkit-text-stroke: .2vw #000;
     text-align: center;
     margin-bottom: 4vw;
 }
 
 h3 {
-    font-family: "League Gothic", sans-serif;
-    letter-spacing: 0.5px;
+    font-family: League Gothic, sans-serif;
+    letter-spacing: .5px;
     font-size: 3vw;
     font-weight: 300;
     line-height: 0;
     color: #f1ef80;
-    -webkit-text-stroke: 0.1vw #000;
+    -webkit-text-stroke: .1vw #000;
     text-align: center;
 }
 
 h4 {
-    font-family: "League Gothic", sans-serif;
-    letter-spacing: 0.5px;
+    font-family: League Gothic, sans-serif;
+    letter-spacing: .5px;
     font-size: 3vw;
     font-weight: 300;
     line-height: 0;
     color: #f1ef80;
-    -webkit-text-stroke: 0.1vw #000;
+    -webkit-text-stroke: .1vw #000;
     text-align: center;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -71,7 +70,7 @@ h4 {
 #spotify-button {
     display: inline-block;
     margin: 0 auto;
-    font-family: "League Gothic", sans-serif;
+    font-family: League Gothic, sans-serif;
     font-size: 3vw;
     text-align: center;
     color: #050705;
@@ -84,7 +83,7 @@ h4 {
 #lastfm-button {
     display: inline-block;
     margin: 0 auto;
-    font-family: "League Gothic", sans-serif;
+    font-family: League Gothic, sans-serif;
     font-size: 3vw;
     text-align: center;
     color: #050705;
@@ -104,12 +103,12 @@ h4 {
     bottom: 0;
     width: 100%;
     min-height: 100px;
-    font-family: "League Gothic", sans-serif;
+    font-family: League Gothic, sans-serif;
     font-size: 1.5vw;
-    letter-spacing: 0.5px;
+    letter-spacing: .5px;
     text-align: center;
     color: #f1ef80;
-    -webkit-text-stroke: 0.05vw #000;
+    -webkit-text-stroke: .05vw #000;
 }
 
 p {
@@ -122,15 +121,13 @@ img {
     background-color: #f1ef80;
 }
 
-a:link,
-a:visited {
+a:link, a:visited {
     color: #f1ef80;
     background-color: transparent;
     text-decoration: underline;
 }
 
-a:hover,
-a:active {
+a:hover, a:active {
     color: #f1ef80;
     background-color: transparent;
     text-decoration: underline;
