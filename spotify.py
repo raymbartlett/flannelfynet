@@ -17,16 +17,16 @@ class Spotify:
     def get_eligible_albums(self):
         """Retrieve all albums saved by the user that potentially have a score."""
         self.eligible_albums = []
-        saved_albums = self.sp.current_user_saved_albums(limit=50, offset=0)['items']
-        total = 10000  # spotify limit?
 
+        saved_albums = []
         # compile every album saved by user into list
-        offset = int(50)
-        while offset < (total + 50):
-            saved_albums.extend(self.sp.current_user_saved_albums(limit=50, offset=offset)['items'])
-            offset = offset + 50
-            if len(saved_albums) < offset:
+        offset = 0
+        while True:
+            temp = self.sp.current_user_saved_albums(limit=50, offset=offset)['items']
+            if len(temp) == 0:
                 break
+            offset += len(temp)
+            saved_albums.extend(temp)
 
         # get total number of albums in library
         self.total_albums = len(saved_albums)
