@@ -4,10 +4,11 @@ from flask import Flask, request, render_template, redirect
 from flask.helpers import url_for
 import requests
 
-from spotify import Spotify
+from spotify import Library, Playlist
 from lastfm import LastFM
 from helpers import *
-from insta_card import generate_card
+from insta_card import results_card
+
 
 # scores for all scores tab
 from scores import titles_classics, titles_2010s
@@ -21,20 +22,23 @@ CLIENT_ID = ""
 CLIENT_SECRET = ""
 LASTFM_KEY = ""
 
+LIBRARY_COLS = ['by score', 'by artist', 'unscored']
+PLAYLIST_COLS = ['top tracks', 'worst tracks', 'unranked']
+
 
 @app.route('/')
 def login():
     """Open screen for user to log in. Redirect URI must match Spotify Developer Dashboard."""
-    parameters = {'client_id': CLIENT_ID, 'response_type': 'code', 'redirect_uri': 'http://127.0.0.1:5000/spotify_access', 'scope': 'user-library-read', 'show_dialog': 'true'}
+    parameters = {'client_id': CLIENT_ID, 'response_type': 'code', 'redirect_uri': 'http://127.0.0.1:5000/spotify_access', 'scope': 'user-library-read, playlist-read-private', 'show_dialog': 'true'}
     base_url = 'https://accounts.spotify.com/authorize'
     r = s.get(base_url, params=parameters)
     return render_template('login.html', url=r.url)
 
 
-@app.route('/spotify_results/<token>')
+@app.route('/library_results/<token>')
 def spotify_results(token):
     """Open results page with Spotify data."""
-    user = Spotify(token)
+    user = Library(token)
     user.get_eligible_albums()
     scored_albums, unscored_albums = get_user_scores(user.eligible_albums)
 
@@ -56,21 +60,22 @@ def spotify_results(token):
     average = get_average(score_data)
     score_path = get_score_path(average)
 
-    encoded_img_data = generate_card(score_path, labels, values, general, average)
+    encoded_img_data = results_card('library', score_path, labels, values, general, f"average score: {average}")
     return render_template('results.html',
-        general=general,
-        ordered_scores=ordered_scores,
-        alphabetical_scores=alphabetical_scores,
-        unscored=unscored_albums,
+        header=general,
+        subheader=f"average score: {average}",
+        score_path=score_path,
         labels=labels,
         values=values,
-        average=average,
-        score_path=score_path,
-        img_data=encoded_img_data.decode('utf-8')
+        img_data=encoded_img_data.decode('utf-8'),
+        columns = LIBRARY_COLS,
+        col1=ordered_scores,
+        col2=alphabetical_scores,
+        col3=unscored_albums
     )
 
 
-@app.route('/lastfm_results', methods=['POST'])
+@app.route('/lastfm_results')
 def lastfm_results():
     """Open results page with last.fm data."""
     username = request.form['username']
@@ -121,17 +126,56 @@ def lastfm_results():
     average = get_average(score_data)
     score_path = get_score_path(average)
 
-    encoded_img_data = generate_card(score_path, labels, values, general, average)
+    encoded_img_data = results_card('library', score_path, labels, values, general, f"average score: {average}")
     return render_template('results.html',
-        general=general,
-        ordered_scores=ordered_scores,
-        alphabetical_scores=alphabetical_scores,
-        unscored=unscored_albums,
+        header=general,
+        subheader=f"average score: {average}",
+        score_path=score_path,
         labels=labels,
         values=values,
-        average=average,
+        img_data=encoded_img_data.decode('utf-8'),
+        columns = LIBRARY_COLS,
+        col1=ordered_scores,
+        col2=alphabetical_scores,
+        col3=unscored_albums,
+    )
+
+
+@app.route('/playlist_results/<token>')
+def playlist_results(token):
+    """Open results page with Playlist data."""
+    playlist_title = 'Your Top Songs 2022'
+
+    user = Playlist(token)
+    user.get_playlist(playlist_title)
+
+    if len(user.top_tracks) < 1 and len(user.worst_tracks) < 1 and len(user.unranked_tracks) < 1:
+        return render_template('error.html', message="you have no playlist titled {playlist_title}")
+    
+    general = f"{user.total_tracks} tracks in total | {len(user.top_tracks) + len(user.worst_tracks)} ranked"
+
+    labels = ['top', 'worst', 'unranked']
+    values = [len(user.top_tracks), len(user.worst_tracks), len(user.unranked_tracks)]
+
+    score = len(user.top_tracks) / (user.total_tracks - len(user.unranked_tracks))
+    score_path = 'light.png'
+    if 0.33 < score <= 0.66:
+        score_path = 'decent.png'
+    elif 0.66 < score:
+        score_path = 'strong.png'
+
+    encoded_img_data = results_card('playlist', score_path, labels, values, general, playlist_title)
+    return render_template('results.html',
+        header=playlist_title,
+        subheader=general,
         score_path=score_path,
-        img_data=encoded_img_data.decode('utf-8')
+        labels=labels,
+        values=values,
+        img_data=encoded_img_data.decode('utf-8'),
+        columns=PLAYLIST_COLS,
+        col1=user.top_tracks,
+        col2=user.worst_tracks,
+        col3=user.unranked_tracks
     )
 
 
@@ -170,7 +214,7 @@ def spotify_access():
     if 'error' in r.json():  # If user does not agree to terms
         return render_template('error.html', message='unable to sign in to spotify')  # Show error with login page, with button to return back to welcome/home page
     access = r.json()['access_token']  # Access token to be used to get info on Spotify user
-    return redirect(url_for('spotify_results', token=access))
+    return redirect(url_for('playlist_results', token=access))
 
 
 if __name__ == '__main__':

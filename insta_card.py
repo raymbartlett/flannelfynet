@@ -20,13 +20,13 @@ def generate_bar_chart(labels, values):
     axes.tick_params(axis='x', colors='#f1ef80')
     axes.tick_params(axis='y', colors='#f1ef80')
 
-    axes.bar(labels, values, color = '#f1ef80')
+    axes.bar(labels, values, color='#f1ef80')
 
     fig.canvas.draw()
     return Image.frombytes('RGB', fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
 
 
-def generate_card(score_path, labels, values, general, average):
+def results_card(type, score_path, labels, values, header, subheader):
     """Compile multiple elements into a scorecard."""
     background = Image.new('RGB', (1080, 1920), (241, 239, 128))
     foreground = Image.new('RGB', ((background.width - 100), (background.height - 100)), (0, 0, 0))
@@ -50,25 +50,33 @@ def generate_card(score_path, labels, values, general, average):
 
     # paste score to foreground
     score_offset = ((foreground.width - score_png.width) // 2, 0)
-    foreground.paste(score_png, score_offset, mask=score_png)
+    if type == 'library':
+        foreground.paste(score_png, score_offset, mask=score_png)
+    elif type == 'playlist':
+        foreground.paste(score_png, score_offset)
 
-    # paste general info to foreground
-    general_font = ImageFont.truetype('static/fonts/league_gothic.ttf', 38)
+    # paste header info to foreground
+    header_font = ImageFont.truetype('static/fonts/league_gothic.ttf', 38)
     draw = ImageDraw.Draw(foreground)
-    general_offset = ((foreground.width - draw.textlength(general, font=general_font)) // 2, score_png.height)
-    draw.text(general_offset, general, fill=(241, 239, 128), font=general_font)
+    header_offset = ((foreground.width - draw.textlength(header, font=header_font)) // 2, score_png.height)
+    draw.text(header_offset, header, fill=(241, 239, 128), font=header_font)
 
-    # paste average score to foreground
-    average_font = ImageFont.truetype('static/fonts/league_gothic.ttf', 60)
+    # paste subheader to foreground
+    subheader_font = ImageFont.truetype('static/fonts/league_gothic.ttf', 60)
     draw = ImageDraw.Draw(foreground)
-    average_text = 'average score: ' + str(average)
-    average_offset = ((foreground.width - draw.textlength(average_text, font=average_font)) // 2, score_png.height + 75)
-    draw.text(average_offset, average_text, fill=(241, 239, 128), font=average_font)
+    subheader_offset = ((foreground.width - draw.textlength(subheader, font=subheader_font)) // 2, score_png.height + 75)
+    draw.text(subheader_offset, subheader, fill=(241, 239, 128), font=subheader_font)
 
     # paste bar chart to foreground
-    bar_chart = generate_bar_chart(labels, values)
-    bar_chart_offset = ((foreground.width - bar_chart.width) // 2, score_png.height + 250)
-    foreground.paste(bar_chart, bar_chart_offset)
+    if type == 'library':
+        bar_chart = generate_bar_chart(labels, values)
+        bar_chart_offset = ((foreground.width - bar_chart.width) // 2, score_png.height + 250)
+        foreground.paste(bar_chart, bar_chart_offset)
+    elif type == 'playlist':
+        # TODO stacked bar chart
+        bar_chart = generate_bar_chart(labels, values)
+        bar_chart_offset = ((foreground.width - bar_chart.width) // 2, score_png.height + 250)
+        foreground.paste(bar_chart, bar_chart_offset)
 
     # paste foreground to background
     foreground_offset = ((background.width - foreground.width) // 2, (background.height - foreground.height) // 2)

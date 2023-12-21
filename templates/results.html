@@ -18,8 +18,8 @@
 
             <div class="toppane">
                 <h1>flannelfy.net</h1>
-                <h2>{{ general }}</h2>
-                <h2>average score: {{ average }}</h2>
+                <h2>{{ header }}</h2>
+                <h2>{{ subheader }}</h2>
             </div>
 
             <div class="scorepng">
@@ -85,25 +85,25 @@
             </div>
 
             <ul id="results" class="nav nav-tabs nav-justified">
-                <li class="nav-item active"><a href="#score" class="nav-link" data-toggle="tab"><h2>by score</h2></a></li>
-                <li class="nav-item"><a href="#artist" class="nav-link" data-toggle="tab"><h2>by artist</h2></a></li>
-                <li class="nav-item"><a href="#unscored" class="nav-link" data-toggle="tab"><h2>unscored</h2></a></li>
+                <li class="nav-item active"><a href="#col1" class="nav-link" data-toggle="tab"><h2>{{ columns[0] }}</h2></a></li>
+                <li class="nav-item"><a href="#col2" class="nav-link" data-toggle="tab"><h2>{{ columns[1] }}</h2></a></li>
+                <li class="nav-item"><a href="#col3" class="nav-link" data-toggle="tab"><h2>{{ columns[2] }}</h2></a></li>
             </ul>
 
             <div class="tab-content">
-                <div id="score" role="tabpanel" class="tab-pane active">
-                    {% for album in ordered_scores %}
-                        <h3><a href={{ album[1] }} target="_blank">{{ album[0] }}</a></h3>
+                <div id="col1" role="tabpanel" class="tab-pane active">
+                    {% for item in col1 %}
+                        <h3><a href={{ item[1] }} target="_blank">{{ item[0] }}</a></h3>
                     {% endfor %}
                 </div>
-                <div id="artist" role="tabpanel" class="tab-pane">
-                    {% for album in alphabetical_scores %}
-                        <h3><a href={{ album[1] }} target="_blank">{{ album[0] }}</a></h3>
+                <div id="col2" role="tabpanel" class="tab-pane">
+                    {% for item in col2 %}
+                        <h3><a href={{ item[1] }} target="_blank">{{ item[0] }}</a></h3>
                     {% endfor %}
                 </div>
-                <div id="unscored" role="tabpanel" class="tab-pane">
-                    {% for album in unscored %}
-                        <h3><a href={{ album[1] }} target="_blank">{{ album[0] }}</a></h3>
+                <div id="col3" role="tabpanel" class="tab-pane">
+                    {% for item in col3 %}
+                        <h3><a href={{ item[1] }} target="_blank">{{ item[0] }}</a></h3>
                     {% endfor %}
                 </div>
             </div>
