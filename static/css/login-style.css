@@ -80,19 +80,6 @@ h4 {
     margin-bottom: 1vw;
 }
 
-#lastfm-button {
-    display: inline-block;
-    margin: 0 auto;
-    font-family: League Gothic, sans-serif;
-    font-size: 3vw;
-    text-align: center;
-    color: #050705;
-    background-color: #e4141e;
-    border-color: #050705;
-    border-radius: 11%;
-    margin-bottom: 1vw;
-}
-
 .modal-content {
     background-color: #000;
     height: 215px;

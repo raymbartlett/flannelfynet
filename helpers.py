@@ -1,7 +1,7 @@
 """Various helper functions, mostly dealing with user results."""
-import Levenshtein
-from scores import titles_classics, titles_2010s, titles_manual
-from scores_2020s import titles_2020s
+import json
+
+from scores import scores
 
 THRESHOLD = 0.5
 
@@ -194,91 +194,18 @@ def get_score_path(average):
     return 'light0.png'
 
 
-def normalize_title(title, context):
-    """Return normalized album artist - title."""
-    title = title.lower()
-    title = title.replace('\u200b', '')  # remove zero width space
-    if context == 'retrieval':
-        title = title.replace('"', '\\"')  # allow for double quotes
-    title = title.replace('’', "'")  # normalize apostrophes
-    title = title.replace('king gizzard and', 'king gizzard &')
-    return title
-
-
-def remove_extras(album):
-    """Return album title without special edition flairs."""
-    flairs = [
-        "edition",
-        "version",
-        "deluxe",
-        "special",
-        "expanded",
-        "extended",
-        "remaster",
-        "remastered",
-        "remix",
-        "edición",
-        "anniversary",
-        "original",  # The Weeknd - House Of Balloons
-    ]
-    parens = album[album.find('('):album.find(')')+1]
-    brackets = album[album.find('['):album.find(']')+1]
-    for flair in flairs:
-        if parens.find(flair) != -1 and parens.find("soundtrack") == -1:
-            return album.replace(parens, '').strip()
-        if brackets.find(flair) != -1 and brackets.find("soundtrack") == -1:
-            return album.replace(brackets, '').strip()
-    album = album.rstrip(' +')  # rosalía - motomami +
-    return album
-
-
-def normalized_distance(str1, str2):
-    distance = Levenshtein.distance(str1, str2)
-    max_length = max(len(str1), len(str2))
-    normalized_distance = distance / max_length
-    return normalized_distance
-
-
 def get_user_scores(eligible_albums):
     """Assign scores to saved albums."""
     scored_albums = {}
     unscored_albums = []
-    all_titles = {**titles_classics, **titles_2010s, **titles_2020s, **titles_manual}
 
     for eligible_album in eligible_albums:
-        search = remove_extras(eligible_album[0])
-        if search in all_titles:
+        # TEMP note: eligible_album[0] is the Spotify link now
+        if eligible_album[0] in scores:
             # exact match
-            scored_albums[search] = (all_titles[search], eligible_album[2])
+            match = scores[eligible_album[0]]
+            scored_albums[f'{match["artist"]} - {match["title"]}'] = (match["score"], eligible_album[0])
         else:
-            closest_key = None
-            closest_distance = float('inf')
-
-            search_artist = search.split(' - ')[0]
-            for key in all_titles:
-                if search.split(' - ')[1] != key.split(' - ')[1]:
-                    # different titles
-                    continue
-
-                distance = normalized_distance(search_artist, key.split(' - ')[0])
-                if distance < closest_distance:
-                    closest_distance = distance
-                    closest_key = key
-            if closest_key is None:
-                # no score
-                unscored_albums.append((eligible_album[0], eligible_album[2]))
-                continue
-
-            key_artist = closest_key.split(' - ')[0]
-            if closest_key not in scored_albums:
-                if search_artist in key_artist or key_artist in search_artist:
-                    # one artist field is substring of the other - almost certainly a match regardless of distance score
-                    scored_albums[closest_key] = (all_titles[closest_key], eligible_album[2])
-                elif closest_distance < THRESHOLD:
-                    # good distance score
-                    scored_albums[search] = (all_titles[closest_key], eligible_album[2])
-                else:
-                    # no score
-                    unscored_albums.append((eligible_album[0], eligible_album[2]))
+            unscored_albums.append((eligible_album[2], eligible_album[0]))
 
     return scored_albums, unscored_albums

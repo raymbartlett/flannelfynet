@@ -1,8 +1,7 @@
 """Stores Spotify class."""
 import spotipy
 
-from helpers import remove_extras, normalize_title
-from scores import titles_classics
+from scores import scores
 
 
 class Spotify:
@@ -33,16 +32,14 @@ class Spotify:
 
         for i in saved_albums:
             release_year = int((i['album']['release_date'])[0:4])
-            title = i['album']['name']
-            title = normalize_title(title, 'library')
-            artist = (' & '.join(artist['name'] for artist in i['album']['artists'])).lower()
-            score = -1
             link = i['album']['external_urls']['spotify']
+            score = -1
 
-            normalized = remove_extras(artist + ' - ' + title)
+            title = i['album']['name']
+            artist = (' & '.join(artist['name'] for artist in i['album']['artists'])).lower()
+
+            combined = artist + ' - ' + title
+
             if release_year >= 2010 and i['album']['album_type'] == 'album':
                 # potentially has fantano score
-                self.eligible_albums.append(list((normalized, score, link)))
-            elif normalized in titles_classics:
-                # is a scored classic album
-                self.eligible_albums.append(list((normalized, score, link)))
+                self.eligible_albums.append(list(link, score, combined))
