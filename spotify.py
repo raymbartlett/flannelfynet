@@ -7,7 +7,7 @@ from scores import scores
 class Spotify:
     """Stores all user data for the home page."""
     total_albums = 0
-    eligible_albums = []
+    eligible_albums = {}
 
     def __init__(self, token):
         """Authorize through Spotify."""
@@ -15,7 +15,7 @@ class Spotify:
 
     def get_eligible_albums(self):
         """Retrieve all albums saved by the user that potentially have a score."""
-        self.eligible_albums = []
+        self.eligible_albums = {}
 
         saved_albums = []
         # compile every album saved by user into list
@@ -42,4 +42,4 @@ class Spotify:
 
             if release_year >= 2010 and i['album']['album_type'] == 'album':
                 # potentially has fantano score
-                self.eligible_albums.append(list(link, score, combined))
+                self.eligible_albums[link] = {'score': -1, 'title': combined}

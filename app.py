@@ -45,7 +45,7 @@ def spotify_results(token):
 
     ordered_scores = by_score(scored_albums)
     alphabetical_scores = by_artist(ordered_scores)
-    unscored_albums.sort(key=lambda x: (x[0].split(' - ')[0], x[0].split(' - ')[1]))
+    # unscored_albums = by_artist(unscored_albums)  # TODO
 
     score_data = get_score_data(scored_albums)
     labels = list(score_data.keys())

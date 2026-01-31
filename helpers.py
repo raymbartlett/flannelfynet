@@ -197,15 +197,12 @@ def get_score_path(average):
 def get_user_scores(eligible_albums):
     """Assign scores to saved albums."""
     scored_albums = {}
-    unscored_albums = []
+    unscored_albums = {}
 
-    for eligible_album in eligible_albums:
-        # TEMP note: eligible_album[0] is the Spotify link now
-        if eligible_album[0] in scores:
-            # exact match
-            match = scores[eligible_album[0]]
-            scored_albums[f'{match["artist"]} - {match["title"]}'] = (match["score"], eligible_album[0])
+    for key in eligible_albums:
+        if key in scores:
+            scored_albums[eligible_albums[key]['title']] = (scores[key]['score'], key)
         else:
-            unscored_albums.append((eligible_album[2], eligible_album[0]))
+            unscored_albums[eligible_albums[key]['title']] = key
 
     return scored_albums, unscored_albums
